@@ -16,11 +16,21 @@ class IntegrationTest {
 
     @Test
     fun `should return error page`() {
-    val response = restTemplate.getForEntity("http://localhost:$port")
+        val response = restTemplate.getForEntity("http://localhost:$port/algorutaquenoexiste", String::class.java)
 
-    assertThat(response.statusCode).isEqualTo(HttpStatus.NOT_FOUND)
-    assertThat(response.body).contains("<title>Error - Ocurrió un problema</title>")
-    assertThat(response.body).contains("¡Ups! Algo salió mal")
-    assertThat(response.body).contains("Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo más tarde.")
+        assertThat(response.statusCode).isEqualTo(HttpStatus.NOT_FOUND)
+        assertThat(response.body).contains("<title>Error - Ocurrió un problema</title>")
+        assertThat(response.body).contains("¡Ups! Algo salió mal")
+        assertThat(response.body).contains("Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo más tarde.")
+    }
+
+    @Test
+    fun `should return current time from /time`() {
+        val response = restTemplate.getForEntity("http://localhost:$port/time", String::class.java)
+
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        // El endpoint /time devuelve un JSON con la hora actual
+        assertThat(response.body).contains("time")
+        
     }
 }
