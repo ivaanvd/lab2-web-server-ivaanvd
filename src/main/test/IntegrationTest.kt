@@ -29,7 +29,6 @@ class IntegrationTest {
         val response = restTemplate.getForEntity("http://localhost:$port/time", String::class.java)
 
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-        // El endpoint /time devuelve un JSON con la hora actual
         assertThat(response.body).contains("time")
         
     }
